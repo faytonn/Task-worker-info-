@@ -40,7 +40,7 @@ namespace Task__worker_info_
                         phoneNumber.Add(phoneNumber_input());
                         positions.Add(positionInput());
                         salary.Add(salaryInput());
-                        Console.WriteLine($"Employee added successfully. ({surname[i]}, {name[i]})"); 
+                        Console.WriteLine($"Employee added successfully. ({surname[i]}, {name[i]})");
                         Console.WriteLine("Enter command or type '/exit' to terminate:");
                         command = Console.ReadLine();
                         if (command == "/exit")
@@ -52,8 +52,7 @@ namespace Task__worker_info_
                 {
                     for (int i = 0; i < name.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. FullName: {name[i]} {surname[i]} {patronymic[i]}, \nAge: {age[i]}, \nFIN: {FIN_Code[i]}");
-                        Console.WriteLine($"Phone number: {phoneNumber[i]}, \nPosition: {positions[i]}, \nSalary: {salary[i]}");
+                        Console.WriteLine($"FullName: {name[i]} {surname[i]} {patronymic[i]}, \nAge: {age[i]}, \nFIN: {FIN_Code[i]} \n Phone number: {phoneNumber[i]}, \nPosition: {positions[i]}, \nSalary: {salary[i]}");
                     }
                 }
                 else if (command == "3" || command == "/exit")
@@ -179,11 +178,12 @@ namespace Task__worker_info_
 
         private static string phoneNumber_input()
         {
-            string phoneNumber = Console.ReadLine();
+            string phoneNumber;
             while (true)
             {
                 Console.Write("Phone number: +994 ");
-                if (phoneNumber.Length == 10 && validPhoneNumber(phoneNumber))
+                phoneNumber = Console.ReadLine();
+                if (phoneNumber.Length == 9 && validPhoneNumber(phoneNumber))
                     break;
 
                 else
@@ -195,28 +195,19 @@ namespace Task__worker_info_
         }
         private static bool validPhoneNumber(string phoneNumber)
         {
-            bool correctNumber = false;
+            bool correctNumber = true;
             for (int i = 0; i < phoneNumber.Length; i++)
             {
                 int value = (int)phoneNumber[i];
                 if (value < 48 || value > 57)
                 {
-                    return false; 
+                    correctNumber = false;
+                    break;
                 }
-                else if (value >= 48 && value <= 57)
-                {
-                    return true;
-                }
-            }
-            if (correctNumber)
-            {
-                return true;
 
             }
-            else
-            {
-                return false;
-            }
+
+            return correctNumber;
         }
 
         private static string positionInput()
@@ -227,7 +218,7 @@ namespace Task__worker_info_
 
             while (true)
             {
-                Console.Write("Position: ");
+                Console.Write("Position (HR, Audit, Engineer): ");
                 position = Console.ReadLine();
                 for (int i = 0; i < positions.Length; i++)
                 {
@@ -242,7 +233,7 @@ namespace Task__worker_info_
                     break;
                 else
                 {
-                    Console.WriteLine("Please enter a valid position from the list: /n Engineer /n Audit /n HR");
+                    Console.WriteLine("Please enter a valid position from the list: \n Engineer \n Audit \n HR");
 
                 }
             }
@@ -270,23 +261,24 @@ namespace Task__worker_info_
         private static bool OnlyFirstLetterCapital(string givenWord)
         {
             bool firstIsUpper = false;
-            bool firstIsLower = false;
+            bool endIsLower = true;
 
             if ((int)givenWord[0] >= 65 && (int)givenWord[0] <= 90)
                 firstIsUpper = true;
+
             for (int i = 1; i < givenWord.Length; i++)
             {
                 int value = (int)givenWord[i];
                 if (value < 97 || value > 122)
                 {
-                    firstIsLower = true;
+                    endIsLower = false;
                     break;
                 }
             }
-            if (firstIsUpper && firstIsLower)
-
+            if (firstIsUpper && endIsLower)
                 return true;
-            return true;
+
+            return false;
 
 
         }
